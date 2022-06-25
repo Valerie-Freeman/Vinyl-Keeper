@@ -35,3 +35,7 @@ export const getUserLibrary = (userId) => {
 export const getUserWishlist = (userId) => {
   return axios.get(`http://localhost:8088/wishlists?userId=${userId}`)
 }
+
+export const deleteWishlistItem = (albumId) => {
+  return axios.delete(`http://localhost:8088/wishlists/${albumId}`)
+}

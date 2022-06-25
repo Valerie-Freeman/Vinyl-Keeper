@@ -15,7 +15,7 @@ export const Library = () => {
 
   useEffect(() => {
     getUserLibrary(user.id).then((res) => setUserAlbums(res.data))
-  }, [user])
+  }, [])
 
   return (
     <>

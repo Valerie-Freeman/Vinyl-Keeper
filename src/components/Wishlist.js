@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getUserWishlist } from '../models/database.server'
 import { AlbumCard } from './AlbumCard'
+import { WishlistToLibraryButton } from './buttons/WishlistToLibraryButton'
+import { Toaster } from 'react-hot-toast'
 
 export const Wishlist = () => {
   const [userAlbums, setUserAlbums] = useState([])
@@ -15,10 +17,11 @@ export const Wishlist = () => {
 
   useEffect(() => {
     getUserWishlist(user.id).then((res) => setUserAlbums(res.data))
-  }, [user])
+  }, [])
 
   return (
     <>
+      <Toaster />
       <div className="card w-96 bg-base-100 shadow-xl shadow-black image-full">
         <figure>
           <img
@@ -35,7 +38,13 @@ export const Wishlist = () => {
         </div>
       </div>
       {userAlbums.map((album) => (
-        <AlbumCard key={album.id} album={album} />
+        <AlbumCard
+          key={album.id}
+          album={album}
+          albumResults={userAlbums}
+          setAlbumResults={setUserAlbums}
+          button={WishlistToLibraryButton}
+        />
       ))}
     </>
   )

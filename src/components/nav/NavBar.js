@@ -61,7 +61,7 @@ export const NavBar = () => {
               <Link to="/">Library</Link>
             </li>
             <li>
-              <Link to="/albumSearch/wishlist">Wishlist</Link>
+              <Link to="/wishlist">Wishlist</Link>
             </li>
             <li>
               <Link
