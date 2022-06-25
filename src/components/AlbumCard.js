@@ -24,8 +24,10 @@ export const AlbumCard = ({ album, albumResults, setAlbumResults, button }) => {
         <img src={album.cover_image} alt={album.title} className="rounded-sm" />
       </figure>
       <div className="card-body items-center text-base-100 text-center">
-        <h2 className="card-title font-bold">{album.title.split(' - ')[1]}</h2>
-        <h3 className="font-semibold">{album.title.split(' - ')[0]}</h3>
+        <h2 className="card-title font-bold">
+          {album?.title?.split(' - ')[1]}
+        </h2>
+        <h3 className="font-semibold">{album?.title?.split(' - ')[0]}</h3>
         <p>{album.year}</p>
         {button ? (
           <div className="card-actions">
