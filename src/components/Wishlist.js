@@ -1,51 +1,31 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
 import { getUserWishlist } from '../models/database.server'
-import { AlbumCard } from './cards/AlbumCard'
-import { WishlistToLibraryButton } from './buttons/WishlistToLibraryButton'
-import { RemoveFromWishlistButton } from './buttons/RemoveFromWishlistButton'
 import { Toaster } from 'react-hot-toast'
+import { AddAlbumCard } from './cards/AddAlbumCard'
+import { WishlistAlbumCard } from './cards/WishlistAlbumCard'
+import { UserContex } from '../userContext'
 
 export const Wishlist = () => {
   const [userAlbums, setUserAlbums] = useState([])
-
-  const user = JSON.parse(localStorage.getItem('vinyl_user'))
-  const navigate = useNavigate()
-
-  const handleNewAlbumClick = () => {
-    navigate('/albumSearch')
-  }
+  const user = useContext(UserContex)
 
   useEffect(() => {
-    getUserWishlist(user.id).then((res) => setUserAlbums(res.data))
-  }, [])
+    if (user.id) {
+      getUserWishlist(user.id).then((res) => setUserAlbums(res.data))
+    }
+  }, [user])
 
   return (
     <>
       <Toaster />
       <div className="grid justify-items-center lg:grid-cols-4 md:grid-cols-2 gap-8 m-4">
-        <div className="card w-96 bg-base-100 shadow-xl shadow-gray-700 image-full">
-          <figure>
-            <img
-              src="https://i2.wp.com/www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png?ssl=1"
-              alt="album cover"
-            />
-          </figure>
-          <div className="card-body items-center flex-col justify-center">
-            <div className="card-actions">
-              <button className="btn btn-primary" onClick={handleNewAlbumClick}>
-                Add Album
-              </button>
-            </div>
-          </div>
-        </div>
+        <AddAlbumCard />
         {userAlbums.map((album) => (
-          <AlbumCard
+          <WishlistAlbumCard
             key={album.id}
             album={album}
             albumResults={userAlbums}
             setAlbumResults={setUserAlbums}
-            buttons={[WishlistToLibraryButton, RemoveFromWishlistButton]}
           />
         ))}
       </div>

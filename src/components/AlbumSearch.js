@@ -2,9 +2,7 @@ import { useEffect, useState } from 'react'
 import { searchAlbums } from '../models/discogs.server'
 import { Toaster } from 'react-hot-toast'
 import Spinner from 'react-spinkit'
-import { AlbumCard } from './cards/AlbumCard'
-import { AddToLibraryButton } from './buttons/AddToLibraryButton'
-import { AddToWishListButton } from './buttons/AddToWishListButton'
+import { SearchAlbumCard } from './cards/SearchAlbumCard'
 
 export const AlbumSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -59,12 +57,11 @@ export const AlbumSearch = () => {
       ) : (
         <div className="grid justify-items-center lg:grid-cols-4 md:grid-cols-2 gap-8">
           {albumResults.map((album) => (
-            <AlbumCard
+            <SearchAlbumCard
               key={album.id}
               album={album}
               albumResults={albumResults}
               setAlbumResults={setAlbumResults}
-              buttons={[AddToLibraryButton, AddToWishListButton]}
             />
           ))}
         </div>
