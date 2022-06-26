@@ -3,7 +3,7 @@ import axios from 'axios'
 export const postLibraryAlbum = (album) => {
   return axios
     .get(
-      `http://localhost:8088/libraries?userId=${album.userId}&master_id=${album.masterId}`
+      `http://localhost:8088/libraries?userId=${album.userId}&master_id=${album.master_id}`
     )
     .then((res) => {
       if (res.data.length) {
@@ -17,7 +17,7 @@ export const postLibraryAlbum = (album) => {
 export const postWishlistAlbum = (album) => {
   return axios
     .get(
-      `http://localhost:8088/wishlists?userId=${album.userId}&master_id=${album.masterId}`
+      `http://localhost:8088/wishlists?userId=${album.userId}&master_id=${album.master_id}`
     )
     .then((res) => {
       if (res.data.length) {

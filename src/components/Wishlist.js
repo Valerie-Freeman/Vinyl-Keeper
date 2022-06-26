@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getUserWishlist } from '../models/database.server'
-import { AlbumCard } from './AlbumCard'
+import { AlbumCard } from './cards/AlbumCard'
 import { WishlistToLibraryButton } from './buttons/WishlistToLibraryButton'
+import { RemoveFromWishlistButton } from './buttons/RemoveFromWishlistButton'
 import { Toaster } from 'react-hot-toast'
 
 export const Wishlist = () => {
@@ -12,7 +13,7 @@ export const Wishlist = () => {
   const navigate = useNavigate()
 
   const handleNewAlbumClick = () => {
-    navigate('/albumSearch/wishlist')
+    navigate('/albumSearch')
   }
 
   useEffect(() => {
@@ -22,30 +23,32 @@ export const Wishlist = () => {
   return (
     <>
       <Toaster />
-      <div className="card w-96 bg-base-100 shadow-xl shadow-black image-full">
-        <figure>
-          <img
-            src="https://i2.wp.com/www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png?ssl=1"
-            alt="album cover"
-          />
-        </figure>
-        <div className="card-body items-center flex-col justify-center">
-          <div className="card-actions">
-            <button className="btn btn-primary" onClick={handleNewAlbumClick}>
-              Add Album
-            </button>
+      <div className="grid justify-items-center lg:grid-cols-4 md:grid-cols-2 gap-8 m-4">
+        <div className="card w-96 bg-base-100 shadow-xl shadow-gray-700 image-full">
+          <figure>
+            <img
+              src="https://i2.wp.com/www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png?ssl=1"
+              alt="album cover"
+            />
+          </figure>
+          <div className="card-body items-center flex-col justify-center">
+            <div className="card-actions">
+              <button className="btn btn-primary" onClick={handleNewAlbumClick}>
+                Add Album
+              </button>
+            </div>
           </div>
         </div>
+        {userAlbums.map((album) => (
+          <AlbumCard
+            key={album.id}
+            album={album}
+            albumResults={userAlbums}
+            setAlbumResults={setUserAlbums}
+            buttons={[WishlistToLibraryButton, RemoveFromWishlistButton]}
+          />
+        ))}
       </div>
-      {userAlbums.map((album) => (
-        <AlbumCard
-          key={album.id}
-          album={album}
-          albumResults={userAlbums}
-          setAlbumResults={setUserAlbums}
-          button={WishlistToLibraryButton}
-        />
-      ))}
     </>
   )
 }

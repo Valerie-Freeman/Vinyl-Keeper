@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { searchAlbums } from '../models/discogs.server'
 import { Toaster } from 'react-hot-toast'
-import { AlbumCard } from './AlbumCard'
+import Spinner from 'react-spinkit'
+import { AlbumCard } from './cards/AlbumCard'
 import { AddToLibraryButton } from './buttons/AddToLibraryButton'
 import { AddToWishListButton } from './buttons/AddToWishListButton'
-import { useLocation } from 'react-router-dom'
 
 export const AlbumSearch = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [albumResults, setAlbumResults] = useState([])
-  const { pathname } = useLocation()
+  const [loading, setLoading] = useState(false)
 
   const handleAlbumSearchChange = (input) => {
     setSearchQuery(input)
@@ -23,8 +23,10 @@ export const AlbumSearch = () => {
 
   const handleOnEnter = (event) => {
     if (event.key === 'Enter') {
+      setLoading(true)
       fetchAlbums(searchQuery).then((albums) => {
-        setAlbumResults(albums.slice(0, 15))
+        setAlbumResults(albums.slice(0, 24))
+        setLoading(false)
       })
     }
   }
@@ -36,7 +38,7 @@ export const AlbumSearch = () => {
   }, [searchQuery])
 
   return (
-    <div id="page">
+    <div className="grid justify-items-center justify-items-stretch">
       <Toaster />
       <div id="form-container">
         <div id="album-input">
@@ -50,21 +52,23 @@ export const AlbumSearch = () => {
           />
         </div>
       </div>
-      <div id="results-container">
-        {albumResults.map((album) => (
-          <AlbumCard
-            key={album.id}
-            album={album}
-            albumResults={albumResults}
-            setAlbumResults={setAlbumResults}
-            button={
-              pathname === '/albumSearch/library'
-                ? AddToLibraryButton
-                : AddToWishListButton
-            }
-          />
-        ))}
-      </div>
+      {loading ? (
+        <div className="w-full">
+          <progress className="progress"></progress>
+        </div>
+      ) : (
+        <div className="grid justify-items-center lg:grid-cols-4 md:grid-cols-2 gap-8">
+          {albumResults.map((album) => (
+            <AlbumCard
+              key={album.id}
+              album={album}
+              albumResults={albumResults}
+              setAlbumResults={setAlbumResults}
+              buttons={[AddToLibraryButton, AddToWishListButton]}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

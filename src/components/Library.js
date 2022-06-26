@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { getUserLibrary } from '../models/database.server'
-import { AlbumCard } from './AlbumCard'
+import { LibraryAlbumCard } from './cards/LibraryAlbumCard'
 
 export const Library = () => {
   const [userAlbums, setUserAlbums] = useState([])
@@ -10,33 +10,36 @@ export const Library = () => {
   const navigate = useNavigate()
 
   const handleNewAlbumClick = () => {
-    navigate('/albumSearch/library')
+    navigate('/albumSearch')
   }
 
   useEffect(() => {
     getUserLibrary(user.id).then((res) => setUserAlbums(res.data))
   }, [])
-
+  //ml-5 mt-4 mr-2
+  // card w-96 bg-base-100 shadow-xl shadow-gray-700 image-full
+  // 'card border-2 border-base-200 card-compact bg-white/5 hover:bg-gray-300/10 transition-all duration-200 hover:shadow hover:-translate-y-1'
   return (
     <>
-      <div className="card w-96 bg-base-100 shadow-xl shadow-black image-full">
-        <figure>
-          <img
-            src="https://i2.wp.com/www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png?ssl=1"
-            alt="album cover"
-          />
-        </figure>
-        <div className="card-body items-center flex-col justify-center">
-          <div className="card-actions">
-            <button className="btn btn-primary" onClick={handleNewAlbumClick}>
-              Add Album
-            </button>
+      <div className="grid not-prose justify-items-center lg:grid-cols-4 md:grid-cols-2 gap-8 m-4">
+        <Link
+          to={`/albumSearch`}
+          className="image-full card border-2 border-base-200 card-compact bg-white/5 hover:bg-gray-300/10 transition-all duration-200 hover:shadow hover:-translate-y-1"
+        >
+          <figure>
+            <img
+              src="https://i2.wp.com/www.wmhbradio.org/wp-content/uploads/2016/07/music-placeholder.png?ssl=1"
+              alt="album cover"
+            />
+          </figure>
+          <div className="card-body items-center flex-col justify-center">
+            <h2 className="card-title font-bold">Add Album</h2>
           </div>
-        </div>
+        </Link>
+        {userAlbums.map((album) => (
+          <LibraryAlbumCard key={album.id} album={album} />
+        ))}
       </div>
-      {userAlbums.map((album) => (
-        <AlbumCard key={album.id} album={album} />
-      ))}
     </>
   )
 }

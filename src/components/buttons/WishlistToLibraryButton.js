@@ -38,7 +38,7 @@ export const WishlistToLibraryButton = ({
         // notfity it already exist, ask if user wants to delete
         // delete get user wishlist again
         // dismiss
-        console.log('This album is already in your library')
+        notifyExisting()
       })
   }
 
