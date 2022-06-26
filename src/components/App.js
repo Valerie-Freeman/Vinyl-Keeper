@@ -4,6 +4,10 @@ import { NavBar } from './nav/NavBar'
 import { Login } from './auth/Login'
 import { Register } from './auth/Register'
 import { AuthorizedRoutes } from './views/AuthorizedRoutes'
+import { UserProvider } from '../userContext'
+import { ToastContainer } from 'react-toastify'
+
+import 'react-toastify/dist/ReactToastify.css'
 
 export const App = () => {
   return (
@@ -15,10 +19,21 @@ export const App = () => {
         path="*"
         element={
           <Authorize>
-            <>
+            <UserProvider>
               <NavBar />
               <AuthorizedRoutes />
-            </>
+              <ToastContainer
+                position="top-right"
+                autoClose={1000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+            </UserProvider>
           </Authorize>
         }
       />

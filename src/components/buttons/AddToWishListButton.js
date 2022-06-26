@@ -1,14 +1,18 @@
 import { notifyAdded, notifyExisting } from '../Notifications'
 import { postWishlistAlbum } from '../../models/database.server'
+import { useContext } from 'react'
+import { UserContex } from '../../userContext'
 
 export const AddToWishListButton = ({
   selectedAlbum,
   setAlbumResults,
   albumResults,
 }) => {
-  const user = JSON.parse(localStorage.getItem('vinyl_user'))
+  const user = useContext(UserContex)
 
-  const handleOnSave = () => {
+  const handleOnSave = (e) => {
+    e.preventDefault() // Prevent onClick from navigating to Album detail page
+
     const albumToSave = {
       master_id: selectedAlbum.master_id,
       cover_image: selectedAlbum.cover_image,

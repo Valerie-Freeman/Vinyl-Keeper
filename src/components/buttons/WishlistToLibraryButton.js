@@ -4,22 +4,26 @@ import {
   deleteWishlistItem,
   getUserWishlist,
 } from '../../models/database.server'
+import { useContext } from 'react'
+import { UserContex } from '../../userContext'
 
 export const WishlistToLibraryButton = ({
   selectedAlbum,
   setAlbumResults,
   albumResults,
 }) => {
-  const user = JSON.parse(localStorage.getItem('vinyl_user'))
+  const user = useContext(UserContex)
 
-  const handleOnSave = () => {
+  const handleOnSave = (e) => {
+    e.preventDefault() // Prevent onClick from navigating to Album detail page
+
     // Make a new album object with out id on it
     const albumToSave = {
       master_id: selectedAlbum.master_id,
       cover_image: selectedAlbum.cover_image,
-      genre: selectedAlbum.genre[0],
-      title: selectedAlbum.title.split(' - ')[1],
-      artist: selectedAlbum.title.split(' - ')[0],
+      genre: selectedAlbum.genre,
+      title: selectedAlbum.title,
+      artist: selectedAlbum.artist,
       year: selectedAlbum.year,
       userId: user.id,
     }
