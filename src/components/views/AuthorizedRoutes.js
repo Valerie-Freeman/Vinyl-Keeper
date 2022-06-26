@@ -8,8 +8,7 @@ export const AuthorizedRoutes = () => {
     <Routes>
       <Route path="/" element={<Library />} />
       <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/albumSearch/library" element={<AlbumSearch />} />
-      <Route path="/albumSearch/wishlist" element={<AlbumSearch />} />
+      <Route path="/albumSearch" element={<AlbumSearch />} />
     </Routes>
   )
 }

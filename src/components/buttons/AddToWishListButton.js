@@ -32,7 +32,7 @@ export const AddToWishListButton = ({
   }
 
   return (
-    <button className="btn btn-outline btn-accent" onClick={handleOnSave}>
+    <button className="btn btn-outline btn-primary" onClick={handleOnSave}>
       Add to Wishlist
     </button>
   )
